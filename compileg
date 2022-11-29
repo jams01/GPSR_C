@@ -1,0 +1,28 @@
+/usr/bin/g++ -c -DUSE_MEX_CMD -D_GNU_SOURCE -DMATLAB_MEX_FILE  -I"/opt/intel/mkl/include"  -I"/usr/local/MATLAB/R2018b/extern/include" -I"/usr/local/MATLAB/R2018b/simulink/include" -I"/usr/include/eigen3/" \-fexceptions -fPIC -fno-omit-frame-pointer -lpthread -DMKL_ILP64 -m64 -fopenmp -ldl -std=c++11 -O3 -DNDEBUG "/home/jams/GPSR/GPSR/gpsr.cpp" -o gpsr.o
+
+
+/usr/bin/g++ -c -DMX_COMPAT_64 -DMKL_ILP64  -DMATLAB_MEXCMD_RELEASE=R2018a  -DUSE_MEX_CMD -D_GNU_SOURCE -DMATLAB_MEX_FILE  -I"/usr/local/MATLAB/R2018b/extern/include" -I"/usr/local/MATLAB/R2018b/simulink/include"  -fopenmp -m64 -I/opt/intel/mkl/include -I/usr/include/eigen3/  -I"/usr/local/MATLAB/R2018b/extern/include" -I"/usr/local/MATLAB/R2018b/simulink/include" -I"/home/jams/GPSR/GPSR" -fPIC -fno-omit-frame-pointer -std=c++11 -ldl -O3 -DNDEBUG "/home/jams/GPSR/GPSR/gpsr.cpp" -o gpsr.o
+
+
+/usr/bin/g++ -c -DMX_COMPAT_64 -DMKL_ILP64  -DMATLAB_MEXCMD_RELEASE=R2018a  -DUSE_MEX_CMD -D_GNU_SOURCE -DMATLAB_MEX_FILE  -I"/usr/local/MATLAB/R2018b/extern/include" -I"/usr/local/MATLAB/R2018b/simulink/include"  -fopenmp -m64 -I/opt/intel/mkl/include -I/usr/include/eigen3/  -I"/usr/local/MATLAB/R2018b/extern/include" -I"/usr/local/MATLAB/R2018b/simulink/include" -I"/home/jams/GPSR/GPSR" -fPIC -fno-omit-frame-pointer -std=c++11 -O3 -DNDEBUG "/usr/local/MATLAB/R2018b/extern/version/cpp_mexapi_version.cpp" -o cpp_mexapi_version.o
+
+
+
+
+## 
+
+/usr/bin/g++ \-lpthread  -DMKL_ILP64 -m64 -fopenmp -shared -O3 -Wl,--version-script,"/usr/local/MATLAB/R2018b/extern/lib/glnxa64/c_exportsmexfileversion.map" gpsr.o cpp_mexapi_version.o  -lgomp  -lpthread  -lm  -ldl  -I eigenLibrary  -L/opt/intel/mkl/lib/intel64   -Wl,-rpath-link,/usr/local/MATLAB/R2018b/bin/glnxa64 -L"/usr/local/MATLAB/R2018b/bin/glnxa64" -lmx -lmex -lmat -lm -lstdc++ -Wl,--start-group  /opt/intel/mkl/lib/intel64/libmkl_intel_ilp64.a /opt/intel/mkl/lib/intel64/libmkl_gnu_thread.a /opt/intel/mkl/lib/intel64/libmkl_core.a /opt/intel/mkl/lib/intel64/libmkl_intel_thread.a /opt/intel/mkl/lib/intel64/libmkl_intel_lp64.a -Wl,--end-group -o gpsr.mexa64
+
+
+/usr/bin/g++ -pthread -DMKL_ILP64 -m64  -fopenmp -O3 -shared -Wl,--no-undefined  -shared -g -Wl,--version-script,"/usr/local/MATLAB/R2018b/extern/lib/glnxa64/c_exportsmexfileversion.map" gpsr.o cpp_mexapi_version.o -lgomp  -lpthread  -lm  -ldl  -I eigenLibrary   -Wl,--as-needed -Wl,-rpath-link,/usr/local/MATLAB/R2018b/bin/glnxa64 -L"/usr/local/MATLAB/R2018b/bin/glnxa64" -Wl,-rpath-link,/usr/local/MATLAB/R2018b/extern/bin/glnxa64 -L"/usr/local/MATLAB/R2018b/extern/bin/glnxa64" -lMatlabDataArray -lmx -lmex -lmat -lm -lstdc++ -L/opt/intel/mkl/lib/intel64   -Wl,-rpath-link,/usr/local/MATLAB/R2018b/bin/glnxa64 -L"/usr/local/MATLAB/R2018b/bin/glnxa64" -lmx -lmex -lmat -lm -lstdc++ -Wl,--start-group  /opt/intel/mkl/lib/intel64/libmkl_intel_ilp64.a /opt/intel/mkl/lib/intel64/libmkl_gnu_thread.a /opt/intel/mkl/lib/intel64/libmkl_core.a /opt/intel/mkl/lib/intel64/libmkl_intel_thread.a /opt/intel/mkl/lib/intel64/libmkl_intel_lp64.a -Wl,--end-group -o gpsr.mexa64
+
+export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libexpat.so
+matlab -Dgdbgui
+handle SIGSEGV SIGBUS nostop noprint
+handle SIGUSR1 stop print
+run -nojvm
+dbmex on
+
+result =gpsr(y2,H,2e-4,1e-12,2,G,16,M*N*L,M,N,L);
+
+
